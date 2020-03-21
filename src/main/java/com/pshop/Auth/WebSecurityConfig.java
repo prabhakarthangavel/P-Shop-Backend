@@ -39,7 +39,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/auth/user").hasRole("USER")
 		.antMatchers("/auth/admin").hasRole("ADMIN")
 		.antMatchers("/auth/authentication").authenticated()
-		//.and().formLogin().loginPage("/angularLogin")
 //		.antMatchers("/getAllProducts/**").permitAll()
 		.and()
         .httpBasic();

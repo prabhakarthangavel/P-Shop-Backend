@@ -40,7 +40,7 @@ public class ProductController {
 		return response;
 	}
 	
-	@PostMapping("/admin/add")
+	@PostMapping("/register")
 	public String addUserByAdmin(@RequestBody UserRequest user) {
 		String pwd = user.getPassword();
 		String encryptPwd = passwordEncoder.encode(pwd);
@@ -49,14 +49,8 @@ public class ProductController {
 		return "user added successfully...";
 	}
 	
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("/admin")
 	public String securedHello() {
 		return "Secured Hello";
-	}
-	
-	@GetMapping("/angularLogin")
-	public String loginRest() {
-		return "Authentication Required";
 	}
 }

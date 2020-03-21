@@ -1,22 +1,33 @@
 package com.pshop.controller;
 
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pshop.products.DAO.Auth;
-import com.pshop.products.entity.User;
+import com.pshop.products.entity.ShoppingCart;
 import com.pshop.products.model.request.AuthRequest;
+import com.pshop.products.model.request.CartProductRequest;
+import com.pshop.products.model.request.RegisterRequest;
+import com.pshop.products.model.request.ShoppingCartRequest;
 import com.pshop.products.model.response.LoginResponse;
 import com.pshop.products.model.response.SaveResponse;
+import com.pshop.products.model.response.ShoppingCartResponse;
 import com.pshop.products.service.ProductsService;
+import com.pshop.repo.CartRepo;
 
 @RestController
 @RequestMapping("/auth")
 public class Authenticate {
+	@Autowired
+	private CartRepo repo;
 	
 	@Autowired
 	private ProductsService service;
@@ -55,11 +66,15 @@ public class Authenticate {
 		return response;
 	}
 	
-	@GetMapping("/allow/")
-	public String allow() {
-		User user= auth.findUser("prabhakar");
-		System.out.println("inside allow"+user.getUsername()+user.getPassword());
-		return user.getUsername();
+	@PostMapping("/addToCart")
+	public ShoppingCartResponse cart(@RequestBody ShoppingCartRequest request) {
+		ShoppingCartResponse response = service.addToCart(request);
+		return response;
 	}
 
+	@GetMapping("/getCart")
+	public ShoppingCart getCart(@RequestHeader(value="Authorization") String authorizationHeader) {
+		System.out.println("authorizationHeader "+authorizationHeader);
+		return repo.findByid("Basic cHJhYmhha2TEST");
+	}
 }

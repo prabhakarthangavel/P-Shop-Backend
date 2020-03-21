@@ -16,13 +16,21 @@ import org.springframework.stereotype.Service;
 import com.pshop.products.DAO.Auth;
 import com.pshop.products.DAO_Impl.ProductsDAOImpl;
 import com.pshop.products.entity.AllProducts;
+import com.pshop.products.entity.CartProduct;
+import com.pshop.products.entity.ShoppingCart;
 import com.pshop.products.entity.User;
 import com.pshop.products.model.request.AuthRequest;
+import com.pshop.products.model.request.CartProductRequest;
+import com.pshop.products.model.request.RegisterRequest;
+import com.pshop.products.model.request.ShoppingCartRequest;
 import com.pshop.products.model.request.UserRequest;
 import com.pshop.products.model.response.LoginResponse;
 import com.pshop.products.model.response.ProductsResponse;
 import com.pshop.products.model.response.SaveResponse;
+import com.pshop.products.model.response.ShoppingCartResponse;
 import com.pshop.products.service.ProductsService;
+import com.pshop.repo.CartProductRepo;
+import com.pshop.repo.CartRepo;
 
 @Service
 public class ProductServiceImpl implements ProductsService {
@@ -32,6 +40,12 @@ public class ProductServiceImpl implements ProductsService {
 	
 	@Autowired
 	private ProductsDAOImpl productsDAO;
+	
+	@Autowired
+	private CartRepo cartRepo;
+	
+	@Autowired
+	private CartProductRepo productRepo;
 	
 	@Transactional
 	@Override
@@ -93,4 +107,17 @@ public class ProductServiceImpl implements ProductsService {
 		}
 		return response;
 	}
+	
+	@Transactional
+	@Override
+	public ShoppingCartResponse addToCart(ShoppingCartRequest request) {
+		ModelMapper mapper = new ModelMapper();
+		ShoppingCart cart = mapper.map(request, ShoppingCart.class);
+		ShoppingCartResponse response = new ShoppingCartResponse();
+		cartRepo.save(cart);
+		ShoppingCart entity = cartRepo.findByid(cart.getId());
+		response = mapper.map(entity, ShoppingCartResponse.class);
+		return response;
+	}
+
 }
