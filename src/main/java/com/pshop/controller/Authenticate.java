@@ -74,7 +74,6 @@ public class Authenticate {
 
 	@GetMapping("/getCart")
 	public ShoppingCart getCart(@RequestHeader(value="Authorization") String authorizationHeader) {
-		System.out.println("authorizationHeader "+authorizationHeader);
-		return repo.findByid("Basic cHJhYmhha2TEST");
+		return repo.findByid(authorizationHeader);
 	}
 }

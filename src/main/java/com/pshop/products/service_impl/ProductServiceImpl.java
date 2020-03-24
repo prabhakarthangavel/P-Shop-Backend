@@ -111,13 +111,40 @@ public class ProductServiceImpl implements ProductsService {
 	@Transactional
 	@Override
 	public ShoppingCartResponse addToCart(ShoppingCartRequest request) {
-		ModelMapper mapper = new ModelMapper();
-		ShoppingCart cart = mapper.map(request, ShoppingCart.class);
 		ShoppingCartResponse response = new ShoppingCartResponse();
-		cartRepo.save(cart);
-		ShoppingCart entity = cartRepo.findByid(cart.getId());
-		response = mapper.map(entity, ShoppingCartResponse.class);
+		ShoppingCart entity = cartRepo.findByid(request.getId());
+		List<String> products = new ArrayList();
+		if(entity != null) {
+			for(CartProduct list:entity.getCartProduct()) {
+				products.add(list.getProduct());
+				if(list.getProduct().equalsIgnoreCase(request.getProduct())) {
+					list.setQuantity(list.getQuantity()+1);
+				}
+			}
+			if(!products.contains(request.getProduct())){
+				List<CartProduct> add = entity.getCartProduct();
+				CartProduct prod = new CartProduct();
+				prod.setProduct(request.getProduct());
+				prod.setQuantity(1);
+				add.add(prod);
+			}
+			ModelMapper mapper = new ModelMapper();
+			response = mapper.map(entity, ShoppingCartResponse.class);
+			cartRepo.save(entity);
+		}else {
+			ShoppingCart cart = new ShoppingCart();
+			cart.setId(request.getId());
+			List<CartProduct> product = new ArrayList<CartProduct>();
+			CartProduct prod = new CartProduct();
+			prod.setProduct(request.getProduct());
+			prod.setQuantity(1);
+			product.add(prod);
+			cart.setCartProduct(product);
+			cartRepo.save(cart);	
+		}
+		ModelMapper mapper = new ModelMapper();
+		ShoppingCart entity1 = cartRepo.findByid(request.getId());
+		response = mapper.map(entity1, ShoppingCartResponse.class);
 		return response;
 	}
-
 }
