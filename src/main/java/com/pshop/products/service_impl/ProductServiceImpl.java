@@ -126,7 +126,7 @@ public class ProductServiceImpl implements ProductsService {
 				CartProduct prod = new CartProduct();
 				prod.setProduct(request.getProduct());
 				prod.setQuantity(1);
-				add.add(prod);
+				add.add(prod);	
 			}
 			ModelMapper mapper = new ModelMapper();
 			response = mapper.map(entity, ShoppingCartResponse.class);
