@@ -5,8 +5,7 @@ import java.util.List;
 public class ShoppingCartResponse {
 	private String id;
 	private List<CartProductResponse> cartProduct;
-	
-	
+
 	public String getId() {
 		return id;
 	}

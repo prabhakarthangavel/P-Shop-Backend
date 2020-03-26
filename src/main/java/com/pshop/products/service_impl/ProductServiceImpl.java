@@ -119,13 +119,16 @@ public class ProductServiceImpl implements ProductsService {
 				products.add(list.getProduct());
 				if(list.getProduct().equalsIgnoreCase(request.getProduct())) {
 					list.setQuantity(list.getQuantity()+1);
+					list.setTotal_price(list.getQuantity()*request.getPrice());
 				}
 			}
 			if(!products.contains(request.getProduct())){
 				List<CartProduct> add = entity.getCartProduct();
 				CartProduct prod = new CartProduct();
 				prod.setProduct(request.getProduct());
+				prod.setImage_url(request.getImage_url());
 				prod.setQuantity(1);
+				prod.setTotal_price(prod.getQuantity()*request.getPrice());
 				add.add(prod);	
 			}
 			ModelMapper mapper = new ModelMapper();
@@ -137,14 +140,33 @@ public class ProductServiceImpl implements ProductsService {
 			List<CartProduct> product = new ArrayList<CartProduct>();
 			CartProduct prod = new CartProduct();
 			prod.setProduct(request.getProduct());
+			prod.setImage_url(request.getImage_url());
 			prod.setQuantity(1);
+			prod.setTotal_price(prod.getQuantity()*request.getPrice());
 			product.add(prod);
 			cart.setCartProduct(product);
 			cartRepo.save(cart);	
 		}
 		ModelMapper mapper = new ModelMapper();
-		ShoppingCart entity1 = cartRepo.findByid(request.getId());
-		response = mapper.map(entity1, ShoppingCartResponse.class);
+		entity = cartRepo.findByid(request.getId());
+		response = mapper.map(entity, ShoppingCartResponse.class);
+		return response;
+	}
+	
+	@Transactional
+	@Override
+	public ShoppingCartResponse removeFromCart(ShoppingCartRequest request) {
+		ModelMapper mapper = new ModelMapper();
+		productRepo.removeItem(request.getId(),request.getProduct(),request.getPrice());
+		ShoppingCart entity = cartRepo.findByid(request.getId());
+		List<CartProduct> products = entity.getCartProduct();
+		for(CartProduct product:products) {
+			if(product.getQuantity() == 0) {
+				productRepo.deleteProduct(product.getProduct(),request.getId());
+			};
+		}
+		entity = cartRepo.findByid(request.getId());
+		ShoppingCartResponse response = mapper.map(entity, ShoppingCartResponse.class);
 		return response;
 	}
 }

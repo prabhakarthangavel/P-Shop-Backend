@@ -4,13 +4,9 @@ public class CartProductResponse {
 
 	private String product;
 	private int quantity;
+	private String image_url;
+	private float total_price;
 	
-//	public String getP_id() {
-//		return p_id;
-//	}
-//	public void setP_id(String p_id) {
-//		this.p_id = p_id;
-//	}
 	public String getProduct() {
 		return product;
 	}
@@ -22,5 +18,17 @@ public class CartProductResponse {
 	}
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	public String getImage_url() {
+		return image_url;
+	}
+	public void setImage_url(String image_url) {
+		this.image_url = image_url;
+	}
+	public float getTotal_price() {
+		return total_price;
+	}
+	public void setTotal_price(float total_price) {
+		this.total_price = total_price;
 	}
 }

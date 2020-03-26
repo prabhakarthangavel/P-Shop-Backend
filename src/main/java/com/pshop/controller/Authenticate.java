@@ -71,6 +71,12 @@ public class Authenticate {
 		ShoppingCartResponse response = service.addToCart(request);
 		return response;
 	}
+	
+	@PostMapping("/removeFromCart")
+	public ShoppingCartResponse removecart(@RequestBody ShoppingCartRequest request) {
+		ShoppingCartResponse response = service.removeFromCart(request);
+		return response;
+	}
 
 	@GetMapping("/getCart")
 	public ShoppingCart getCart(@RequestHeader(value="Authorization") String authorizationHeader) {

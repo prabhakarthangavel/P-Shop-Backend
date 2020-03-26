@@ -17,4 +17,5 @@ public interface ProductsService {
 	void saveUser(UserRequest user);
 	LoginResponse authenticate(AuthRequest request);
 	ShoppingCartResponse addToCart(ShoppingCartRequest request);
+	ShoppingCartResponse removeFromCart(ShoppingCartRequest request);
 }
