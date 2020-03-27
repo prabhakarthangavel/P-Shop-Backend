@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ShoppingCartRequest {
 	private String id;
-	private String product;
+	private String title;
 	private String image_url;
 	private float price;
 	
@@ -14,11 +14,11 @@ public class ShoppingCartRequest {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getProduct() {
-		return product;
+	public String getTitle() {
+		return title;
 	}
-	public void setProduct(String product) {
-		this.product = product;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getImage_url() {
 		return image_url;

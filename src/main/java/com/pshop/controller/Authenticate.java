@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pshop.products.DAO.Auth;
 import com.pshop.products.entity.ShoppingCart;
 import com.pshop.products.model.request.AuthRequest;
-import com.pshop.products.model.request.CartProductRequest;
 import com.pshop.products.model.request.RegisterRequest;
 import com.pshop.products.model.request.ShoppingCartRequest;
 import com.pshop.products.model.response.LoginResponse;

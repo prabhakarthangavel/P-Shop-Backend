@@ -20,7 +20,6 @@ import com.pshop.products.entity.CartProduct;
 import com.pshop.products.entity.ShoppingCart;
 import com.pshop.products.entity.User;
 import com.pshop.products.model.request.AuthRequest;
-import com.pshop.products.model.request.CartProductRequest;
 import com.pshop.products.model.request.RegisterRequest;
 import com.pshop.products.model.request.ShoppingCartRequest;
 import com.pshop.products.model.request.UserRequest;
@@ -116,19 +115,20 @@ public class ProductServiceImpl implements ProductsService {
 		List<String> products = new ArrayList();
 		if(entity != null) {
 			for(CartProduct list:entity.getCartProduct()) {
-				products.add(list.getProduct());
-				if(list.getProduct().equalsIgnoreCase(request.getProduct())) {
+				products.add(list.getTitle());
+				if(list.getTitle().equalsIgnoreCase(request.getTitle())) {
 					list.setQuantity(list.getQuantity()+1);
 					list.setTotal_price(list.getQuantity()*request.getPrice());
 				}
 			}
-			if(!products.contains(request.getProduct())){
+			if(!products.contains(request.getTitle())){
 				List<CartProduct> add = entity.getCartProduct();
 				CartProduct prod = new CartProduct();
-				prod.setProduct(request.getProduct());
+				prod.setTitle(request.getTitle());
 				prod.setImage_url(request.getImage_url());
 				prod.setQuantity(1);
 				prod.setTotal_price(prod.getQuantity()*request.getPrice());
+				prod.setPrice(request.getPrice());
 				add.add(prod);	
 			}
 			ModelMapper mapper = new ModelMapper();
@@ -139,10 +139,11 @@ public class ProductServiceImpl implements ProductsService {
 			cart.setId(request.getId());
 			List<CartProduct> product = new ArrayList<CartProduct>();
 			CartProduct prod = new CartProduct();
-			prod.setProduct(request.getProduct());
+			prod.setTitle(request.getTitle());
 			prod.setImage_url(request.getImage_url());
 			prod.setQuantity(1);
 			prod.setTotal_price(prod.getQuantity()*request.getPrice());
+			prod.setPrice(request.getPrice());
 			product.add(prod);
 			cart.setCartProduct(product);
 			cartRepo.save(cart);	
@@ -157,12 +158,12 @@ public class ProductServiceImpl implements ProductsService {
 	@Override
 	public ShoppingCartResponse removeFromCart(ShoppingCartRequest request) {
 		ModelMapper mapper = new ModelMapper();
-		productRepo.removeItem(request.getId(),request.getProduct(),request.getPrice());
+		productRepo.removeItem(request.getId(),request.getTitle(),request.getPrice());
 		ShoppingCart entity = cartRepo.findByid(request.getId());
 		List<CartProduct> products = entity.getCartProduct();
 		for(CartProduct product:products) {
 			if(product.getQuantity() == 0) {
-				productRepo.deleteProduct(product.getProduct(),request.getId());
+				productRepo.deleteProduct(product.getTitle(),request.getId());
 			};
 		}
 		entity = cartRepo.findByid(request.getId());

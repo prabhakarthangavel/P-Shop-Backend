@@ -2,16 +2,26 @@ package com.pshop.products.model.response;
 
 public class CartProductResponse {
 
-	private String product;
+	private String title;
 	private int quantity;
 	private String image_url;
 	private float total_price;
+	private float price;
 	
-	public String getProduct() {
-		return product;
+	public float getPrice() {
+		return price;
 	}
-	public void setProduct(String product) {
-		this.product = product;
+	public void setPrice(float price) {
+		this.price = price;
+	}
+	public void setPrice() {
+		this.price = this.total_price % this.quantity;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public int getQuantity() {
 		return quantity;

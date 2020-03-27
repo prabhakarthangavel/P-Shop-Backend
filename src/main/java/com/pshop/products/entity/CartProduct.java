@@ -21,25 +21,33 @@ public class CartProduct implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int p_id;
 	@Column
-	private String product;
+	private String title;
 	@Column
 	private int quantity;
 	@Column
 	private String image_url;
 	@Column
 	private float total_price;
+	@Column
+	private float price;
 	
+	public float getPrice() {
+		return price;
+	}
+	public void setPrice(float price) {
+		this.price = price;
+	}
 	public int getP_id() {
 		return p_id;
 	}
 	public void setP_id(int p_id) {
 		this.p_id = p_id;
 	}
-	public String getProduct() {
-		return product;
+	public String getTitle() {
+		return title;
 	}
-	public void setProduct(String product) {
-		this.product = product;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public int getQuantity() {
 		return quantity;
