@@ -10,6 +10,10 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +34,7 @@ import com.pshop.products.model.response.ShoppingCartResponse;
 import com.pshop.products.service.ProductsService;
 import com.pshop.repo.CartProductRepo;
 import com.pshop.repo.CartRepo;
+import com.pshop.repo.ProductsRepo;
 
 @Service
 public class ProductServiceImpl implements ProductsService {
@@ -45,6 +50,9 @@ public class ProductServiceImpl implements ProductsService {
 	
 	@Autowired
 	private CartProductRepo productRepo;
+	
+	@Autowired
+	private ProductsRepo pagingRepo;
 	
 	@Transactional
 	@Override
@@ -168,6 +176,52 @@ public class ProductServiceImpl implements ProductsService {
 		}
 		entity = cartRepo.findByid(request.getId());
 		ShoppingCartResponse response = mapper.map(entity, ShoppingCartResponse.class);
+		return response;
+	}
+
+	@Transactional
+	@Override
+	public ShoppingCartResponse clearCart(String id) {
+		productRepo.clearCart(id);
+		ShoppingCart entity = cartRepo.findByid(id);
+		ModelMapper mapper = new ModelMapper();
+		ShoppingCartResponse response = mapper.map(entity, ShoppingCartResponse.class);
+		return response;
+	}
+
+	@Override
+	public List<ProductsResponse> pagableProduct(int firstIndex, int lastIndex) {
+		List<ProductsResponse> response = new ArrayList<ProductsResponse>();
+		Pageable sortByTitle = PageRequest.of(firstIndex, lastIndex, Sort.by("title").ascending());
+		Page<AllProducts> products = pagingRepo.findAll(sortByTitle);
+		for(AllProducts prod:products) {
+			ProductsResponse res = new ProductsResponse();
+			BeanUtils.copyProperties(prod, res);
+			response.add(res);
+		}
+		return response;
+	}
+
+	@Override
+	public List<ProductsResponse> searchProduct(String value) {
+		List<ProductsResponse> response = new ArrayList<ProductsResponse>();
+		List<AllProducts> products = pagingRepo.findProducts(value);
+		for(AllProducts prod:products) {
+			ProductsResponse res = new ProductsResponse();
+			BeanUtils.copyProperties(prod, res);
+			response.add(res);
+		}
+		return response;
+	}
+
+	@Override
+	public ProductsResponse getProductByTitle(String product) {
+		ProductsResponse response = new ProductsResponse();
+		AllProducts products = pagingRepo.findByTitle(product);
+		if(products == null) {
+			return response;
+		}
+		BeanUtils.copyProperties(products, response);
 		return response;
 	}
 }

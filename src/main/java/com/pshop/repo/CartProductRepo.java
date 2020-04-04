@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.pshop.products.entity.CartProduct;
+import com.pshop.products.entity.ShoppingCart;
 
 @Repository
 public interface CartProductRepo extends CrudRepository<CartProduct, String> {
@@ -19,5 +20,10 @@ public interface CartProductRepo extends CrudRepository<CartProduct, String> {
 	@Query(value="delete from cart_product where title = ?1 and cp_fk = ?2"
 	,nativeQuery=true)
 	void deleteProduct(String product,String id);
+
+	@Modifying(clearAutomatically = true)
+	@Query(value="delete from cart_product where cp_fk = ?1"
+	,nativeQuery=true)
+	void clearCart(String id);
 
 }

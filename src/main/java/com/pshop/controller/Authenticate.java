@@ -77,6 +77,12 @@ public class Authenticate {
 		return response;
 	}
 
+	@GetMapping("/clearCart")
+	public ShoppingCartResponse clearCart(@RequestHeader(value="Authorization") String authorizationHeader) {
+		ShoppingCartResponse response = service.clearCart(authorizationHeader);
+		return response;
+	}
+	
 	@GetMapping("/getCart")
 	public ShoppingCart getCart(@RequestHeader(value="Authorization") String authorizationHeader) {
 		return repo.findByid(authorizationHeader);

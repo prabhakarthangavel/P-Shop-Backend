@@ -2,6 +2,8 @@ package com.pshop.products.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+
 import com.pshop.products.model.request.AuthRequest;
 import com.pshop.products.model.request.RegisterRequest;
 import com.pshop.products.model.request.ShoppingCartRequest;
@@ -18,4 +20,8 @@ public interface ProductsService {
 	LoginResponse authenticate(AuthRequest request);
 	ShoppingCartResponse addToCart(ShoppingCartRequest request);
 	ShoppingCartResponse removeFromCart(ShoppingCartRequest request);
+	ShoppingCartResponse clearCart(String id);
+	List<ProductsResponse> pagableProduct(int firstIndex, int lastIndex);
+	List<ProductsResponse> searchProduct(String value);
+	ProductsResponse getProductByTitle(String product);
 }
