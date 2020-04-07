@@ -64,7 +64,7 @@ public class ProductController {
 		List<ProductsResponse> response = service.searchProduct(value);
 		return response;
 	}
-
+	
 	@PostMapping("/register")
 	public String addUserByAdmin(@RequestBody UserRequest user) {
 		String pwd = user.getPassword();

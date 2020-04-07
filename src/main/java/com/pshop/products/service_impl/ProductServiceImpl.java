@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductsService {
 	@Override
 	public SaveResponse save() {
 		AllProducts products = new AllProducts("bread","https://static.pexels.com/photos/2434/bread-food-healthy-breakfast.jpg",
-				35.0, "Freshly Baked Bread");
+				35.0, "Freshly Baked Bread",10);
 		SaveResponse response = new SaveResponse();
 		try {
 			productsDAO.save(products);
@@ -222,6 +222,20 @@ public class ProductServiceImpl implements ProductsService {
 			return response;
 		}
 		BeanUtils.copyProperties(products, response);
+		return response;
+	}
+	
+	@Transactional
+	@Override
+	public SaveResponse updateProduct(ProductsResponse request) {
+		SaveResponse response = new SaveResponse();
+		int updated = pagingRepo.updateProduct(request.getId(),request.getTitle(),request.getPrice(),
+				request.getCategory(),request.getImage_url(),request.getStock());
+		if(updated==1) {
+			response.setStatus("Saved Sacessfully");
+		}else {
+			response.setStatus("Unable to save the data");
+		}
 		return response;
 	}
 }

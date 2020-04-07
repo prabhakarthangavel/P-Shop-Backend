@@ -36,14 +36,27 @@ public class AllProducts implements Serializable {
 	@Column
 	private String title;
 	
-	public AllProducts(String category,String image_url, double price, String title){
+	@Column
+	private int stock;
+	
+	
+	
+	public AllProducts(String category,String image_url, double price, String title, int stock){
 //		this.id = id;
 		this.image_url = image_url;
 		this.category = category;
 		this.price = price;
 		this.title = title;
+		this.stock = stock;
 	}
 	
+
+	public int getStock() {
+		return stock;
+	}
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
 
 	public int getId() {
 		return id;

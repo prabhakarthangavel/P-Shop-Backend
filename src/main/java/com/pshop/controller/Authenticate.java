@@ -1,8 +1,5 @@
 package com.pshop.controller;
 
-import java.util.List;
-
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pshop.products.DAO.Auth;
 import com.pshop.products.entity.ShoppingCart;
 import com.pshop.products.model.request.AuthRequest;
-import com.pshop.products.model.request.RegisterRequest;
 import com.pshop.products.model.request.ShoppingCartRequest;
 import com.pshop.products.model.response.LoginResponse;
+import com.pshop.products.model.response.ProductsResponse;
 import com.pshop.products.model.response.SaveResponse;
 import com.pshop.products.model.response.ShoppingCartResponse;
 import com.pshop.products.service.ProductsService;
@@ -53,8 +50,10 @@ public class Authenticate {
 	}
 	
 	@GetMapping("/user")
-	public String user() {
-		return "USER working";
+	public SaveResponse user() {
+		SaveResponse response = new SaveResponse();
+		response.setStatus("User working");
+		return response;
 	}
 	
 	
@@ -86,5 +85,11 @@ public class Authenticate {
 	@GetMapping("/getCart")
 	public ShoppingCart getCart(@RequestHeader(value="Authorization") String authorizationHeader) {
 		return repo.findByid(authorizationHeader);
+	}
+	
+	@PostMapping("/admin/updateProducts")
+	public SaveResponse update(@RequestBody ProductsResponse request) {
+		SaveResponse response = service.updateProduct(request);
+		return response;
 	}
 }

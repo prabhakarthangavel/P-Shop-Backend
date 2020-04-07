@@ -24,4 +24,5 @@ public interface ProductsService {
 	List<ProductsResponse> pagableProduct(int firstIndex, int lastIndex);
 	List<ProductsResponse> searchProduct(String value);
 	ProductsResponse getProductByTitle(String product);
+	SaveResponse updateProduct(ProductsResponse request);
 }
