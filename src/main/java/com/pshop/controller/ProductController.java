@@ -73,9 +73,4 @@ public class ProductController {
 		service.saveUser(user);
 		return "user added successfully...";
 	}
-
-	@GetMapping("/admin")
-	public String securedHello() {
-		return "Secured Hello";
-	}
 }

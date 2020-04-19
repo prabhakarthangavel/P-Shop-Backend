@@ -1,6 +1,11 @@
 package com.pshop.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,21 +37,23 @@ public class Authenticate {
 	Auth auth;
 	
 	@GetMapping("/logintest")
-	public String logintest() {
-		return "logged in";
+	public SaveResponse logintest() {
+		SaveResponse response = new SaveResponse();
+		response.setStatus("logged in");
+		return response;
 	}
 	
-	@PostMapping("/login")
+	@PostMapping("/authentication")
 	public LoginResponse login(@RequestBody AuthRequest request) {
 		LoginResponse response = service.authenticate(request);
 		return response;
 	}
 	
 	@GetMapping("/admin")
-	public SaveResponse admin() {
+	public ResponseEntity<SaveResponse> admin() {
 		SaveResponse response = new SaveResponse();
 		response.setStatus("ADMIN working");
-		return response;
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 	
 	@GetMapping("/user")
@@ -57,12 +64,12 @@ public class Authenticate {
 	}
 	
 	
-	@GetMapping("/authentication")
-	public SaveResponse authentication() {
-		SaveResponse response = new SaveResponse();
-		response.setStatus("Authenticated");
-		return response;
-	}
+//	@GetMapping("/")
+//	public SaveResponse authentication() {
+//		SaveResponse response = new SaveResponse();
+//		response.setStatus("Authenticated");
+//		return response;
+//	}
 	
 	@PostMapping("/addToCart")
 	public ShoppingCartResponse cart(@RequestBody ShoppingCartRequest request) {

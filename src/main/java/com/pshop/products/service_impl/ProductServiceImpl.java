@@ -1,7 +1,9 @@
 package com.pshop.products.service_impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -21,6 +23,7 @@ import com.pshop.products.DAO.Auth;
 import com.pshop.products.DAO_Impl.ProductsDAOImpl;
 import com.pshop.products.entity.AllProducts;
 import com.pshop.products.entity.CartProduct;
+import com.pshop.products.entity.Role;
 import com.pshop.products.entity.ShoppingCart;
 import com.pshop.products.entity.User;
 import com.pshop.products.model.request.AuthRequest;
@@ -106,7 +109,8 @@ public class ProductServiceImpl implements ProductsService {
 		}else {
 			if(encoder.matches(request.getPassword(), user.getPassword())) {
 				response.setUsername(request.getUsername());
-				response.setStatus("success");
+				response.setStatus("Authenticated");
+				response.setRole(user.getRoles().iterator().next().getRole());
 			}else {
 				response.setUsername(request.getUsername());
 				response.setStatus("failed");

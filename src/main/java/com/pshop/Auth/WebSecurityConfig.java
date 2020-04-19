@@ -24,24 +24,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(encodePWD());
 	}
-	
+
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().and()
 
-		.authorizeRequests()
+				.authorizeRequests()
 
-		.antMatchers("/auth/user").hasRole("USER")
-		.antMatchers("/auth/admin/*").hasRole("ADMIN")
-		.antMatchers("/auth/authentication").authenticated()
+				.antMatchers("/auth/user").hasRole("USER").antMatchers("/auth/admin").hasRole("ADMIN")
+				.antMatchers("/auth/authentication").authenticated()
 //		.antMatchers("/getAllProducts/**").permitAll()
-		.and()
-        .httpBasic();
+				.and()
+//		.logout().logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout"))
+				.httpBasic();
 	}
 
 	@Bean
