@@ -1,0 +1,9 @@
+spring:
+   database:
+      username: prabhakar
+      password: babyblue
+      url: jdbc:mysql://aa1x5mws8ptea4n.ctiochtjw1e2.us-east-2.rds.amazonaws.com:3306/pshop
+   jpa:
+      hibernate:
+         ddl-auto: update
+     

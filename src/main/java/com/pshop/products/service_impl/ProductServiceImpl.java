@@ -94,7 +94,6 @@ public class ProductServiceImpl implements ProductsService {
 		java.lang.reflect.Type source = new TypeToken<User>() {
 		}.getType();
 		User userEntity = mapper.map(user, source);
-		System.out.println(userEntity.getUsername()+userEntity.getUser_id()+userEntity.getRoles().size());
 		authRepo.save(userEntity);
 	}
 

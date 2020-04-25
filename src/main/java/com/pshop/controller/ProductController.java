@@ -1,7 +1,9 @@
 package com.pshop.controller;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pshop.products.model.request.AuthRequest;
+import com.pshop.products.model.request.RoleRequest;
 import com.pshop.products.model.request.UserRequest;
 import com.pshop.products.model.response.LoginResponse;
 import com.pshop.products.model.response.ProductsResponse;
@@ -66,11 +69,11 @@ public class ProductController {
 	}
 	
 	@PostMapping("/register")
-	public String addUserByAdmin(@RequestBody UserRequest user) {
+	public SaveResponse addUserByAdmin(@RequestBody UserRequest user) {
 		String pwd = user.getPassword();
 		String encryptPwd = passwordEncoder.encode(pwd);
 		user.setPassword(encryptPwd);
 		service.saveUser(user);
-		return "user added successfully...";
+		return new SaveResponse("success");
 	}
 }
