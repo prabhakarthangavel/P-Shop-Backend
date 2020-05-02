@@ -30,6 +30,8 @@ public class CartProduct implements Serializable {
 	private float total_price;
 	@Column
 	private float price;
+	@Column
+	private int stock;
 	
 	public float getPrice() {
 		return price;
@@ -66,5 +68,11 @@ public class CartProduct implements Serializable {
 	}
 	public void setTotal_price(float total_price) {
 		this.total_price = total_price;
+	}
+	public int getStock() {
+		return stock;
+	}
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 }

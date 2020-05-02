@@ -7,6 +7,7 @@ public class CartProductResponse {
 	private String image_url;
 	private float total_price;
 	private float price;
+	private int stock;
 	
 	public float getPrice() {
 		return price;
@@ -41,4 +42,11 @@ public class CartProductResponse {
 	public void setTotal_price(float total_price) {
 		this.total_price = total_price;
 	}
+	public int getStock() {
+		return stock;
+	}
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+	
 }

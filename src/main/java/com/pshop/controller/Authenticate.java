@@ -1,7 +1,6 @@
 package com.pshop.controller;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,21 +13,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pshop.products.DAO.Auth;
+import com.pshop.products.entity.AllProducts;
 import com.pshop.products.entity.ShoppingCart;
 import com.pshop.products.model.request.AuthRequest;
 import com.pshop.products.model.request.ShoppingCartRequest;
+import com.pshop.products.model.response.CartProductResponse;
 import com.pshop.products.model.response.LoginResponse;
 import com.pshop.products.model.response.ProductsResponse;
 import com.pshop.products.model.response.SaveResponse;
 import com.pshop.products.model.response.ShoppingCartResponse;
 import com.pshop.products.service.ProductsService;
 import com.pshop.repo.CartRepo;
+import com.pshop.repo.ProductsRepo;
 
 @RestController
 @RequestMapping("/auth")
 public class Authenticate {
 	@Autowired
 	private CartRepo repo;
+	
+	@Autowired
+	ProductsRepo productRepo;
 	
 	@Autowired
 	private ProductsService service;
@@ -74,6 +79,12 @@ public class Authenticate {
 	@PostMapping("/addToCart")
 	public ShoppingCartResponse cart(@RequestBody ShoppingCartRequest request) {
 		ShoppingCartResponse response = service.addToCart(request);
+		List<CartProductResponse> stocks = response.getCartProduct();
+//		for(CartProductResponse stock:stocks) {
+//			AllProducts product = productRepo.findByTitle(stock.getTitle());
+//			int total_stock = product.getStock();
+//			stock.setStock(total_stock);
+//		}
 		return response;
 	}
 	

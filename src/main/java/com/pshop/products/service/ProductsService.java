@@ -1,9 +1,12 @@
 package com.pshop.products.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
 
+import com.pshop.exception_handling.SqlException;
+import com.pshop.products.entity.User;
 import com.pshop.products.model.request.AuthRequest;
 import com.pshop.products.model.request.RegisterRequest;
 import com.pshop.products.model.request.ShoppingCartRequest;
@@ -16,7 +19,7 @@ import com.pshop.products.model.response.ShoppingCartResponse;
 public interface ProductsService {
 	SaveResponse save();
 	List<ProductsResponse> getProducts(String product);
-	void saveUser(UserRequest user);
+	void saveUser(UserRequest user) throws SqlException;
 	LoginResponse authenticate(AuthRequest request);
 	ShoppingCartResponse addToCart(ShoppingCartRequest request);
 	ShoppingCartResponse removeFromCart(ShoppingCartRequest request);

@@ -1,5 +1,6 @@
 package com.pshop.products.service_impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.pshop.exception_handling.SqlException;
 import com.pshop.products.DAO.Auth;
 import com.pshop.products.DAO_Impl.ProductsDAOImpl;
 import com.pshop.products.entity.AllProducts;
@@ -89,11 +92,14 @@ public class ProductServiceImpl implements ProductsService {
 	
 	@Transactional
 	@Override
-	public void saveUser(UserRequest user) {
+	public void saveUser(UserRequest user) throws SqlException {
 		ModelMapper mapper = new ModelMapper();
 		java.lang.reflect.Type source = new TypeToken<User>() {
 		}.getType();
 		User userEntity = mapper.map(user, source);
+		if(authRepo.findUser(user.getUsername()) != null) {
+			throw new SqlException("Username already exist try different name!");
+		}
 		authRepo.save(userEntity);
 	}
 
@@ -140,6 +146,9 @@ public class ProductServiceImpl implements ProductsService {
 				prod.setQuantity(1);
 				prod.setTotal_price(prod.getQuantity()*request.getPrice());
 				prod.setPrice(request.getPrice());
+				//
+				AllProducts stock = pagingRepo.findByTitle(request.getTitle());
+				prod.setStock(stock.getStock());
 				add.add(prod);	
 			}
 			ModelMapper mapper = new ModelMapper();
@@ -155,6 +164,9 @@ public class ProductServiceImpl implements ProductsService {
 			prod.setQuantity(1);
 			prod.setTotal_price(prod.getQuantity()*request.getPrice());
 			prod.setPrice(request.getPrice());
+			//
+			AllProducts stock = pagingRepo.findByTitle(request.getTitle());
+			prod.setStock(stock.getStock());
 			product.add(prod);
 			cart.setCartProduct(product);
 			cartRepo.save(cart);	
