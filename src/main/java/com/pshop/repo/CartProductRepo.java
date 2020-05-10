@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.pshop.products.entity.CartProduct;
-import com.pshop.products.entity.ShoppingCart;
 
 @Repository
 public interface CartProductRepo extends CrudRepository<CartProduct, String> {

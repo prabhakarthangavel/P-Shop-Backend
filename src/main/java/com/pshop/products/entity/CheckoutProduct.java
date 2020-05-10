@@ -8,14 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity(name="cart_product")
-public class CartProduct implements Serializable {
+@Entity(name="checkout_product")
+public class CheckoutProduct implements Serializable {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4502235867353946705L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+	@Column
 	private int p_id;
 	@Column
 	private String title;

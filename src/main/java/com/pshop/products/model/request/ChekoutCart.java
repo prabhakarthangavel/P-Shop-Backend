@@ -1,41 +1,13 @@
-package com.pshop.products.entity;
+package com.pshop.products.model.request;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity(name="cart_product")
-public class CartProduct implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+public class ChekoutCart {
 	private int p_id;
-	@Column
 	private String title;
-	@Column
 	private int quantity;
-	@Column
 	private String image_url;
-	@Column
 	private float total_price;
-	@Column
-	private float price;
-	@Column
+	private int price;
 	private int stock;
-	
-	public float getPrice() {
-		return price;
-	}
-	public void setPrice(float price) {
-		this.price = price;
-	}
 	public int getP_id() {
 		return p_id;
 	}
@@ -61,10 +33,16 @@ public class CartProduct implements Serializable {
 		this.image_url = image_url;
 	}
 	public float getTotal_price() {
-		return total_price;
+		return total_price; 
 	}
 	public void setTotal_price(float total_price) {
 		this.total_price = total_price;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
 	}
 	public int getStock() {
 		return stock;
